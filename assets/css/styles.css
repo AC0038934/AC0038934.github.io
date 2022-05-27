@@ -532,7 +532,7 @@ img{
     width: 80%;
 }
 .skills__jquery{
-    width: 90%;
+    width: 80%;
 }
 .skills__bootstrap{
     width: 100%;
@@ -555,7 +555,10 @@ img{
     width: 98%;
 }
 .skills__alpine{
-    width: 80%;
+    width: 30%;
+}
+.skills__vue{
+    width: 30%;
 }
 .skills__sql{
     width: 90%;
