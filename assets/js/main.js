@@ -212,7 +212,7 @@ getPersona().then(data => {
     document.getElementById('persona-whatsapp-link').href="https://wa.me/"+data.whatsapp+"?text=Hi, "+data.name+" ";
     document.getElementById('cover-spin').style.display = "none";
 }).catch(error => {
-    console.log(error)
+    alert(error)
 }).finally(() => {
     console.log('Api fetch completed')
 });
