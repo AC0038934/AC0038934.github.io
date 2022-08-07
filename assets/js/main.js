@@ -210,6 +210,7 @@ getPersona().then(data => {
     document.getElementById('persona-whatsapp').textContent = "+"+data.whatsapp.toString().substring(0,2) + " " + data.whatsapp.toString().substring(2,3) + " " + data.whatsapp.toString().substring(3,7) + " " + data.whatsapp.toString().substring(7);
     document.getElementById('persona-location').textContent = data.location;
     document.getElementById('persona-whatsapp-link').href="https://wa.me/"+data.whatsapp+"?text=Hi, "+data.name+" ";
+    document.getElementById('cover-spin').style.display = "none";
 }).catch(error => {
     console.log(error)
 }).finally(() => {
