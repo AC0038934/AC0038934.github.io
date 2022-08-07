@@ -193,3 +193,28 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
 
+/*==================== API FETCH ====================*/ 
+
+async function getPersona() {
+    let response = await fetch("http://apiportfolio9000.herokuapp.com/api/persona/4")
+    let data = await response.json()
+    return data;
+}
+
+getPersona().then(data => {
+    let elms = document.querySelectorAll("[id='persona-name']");
+    for(let i = 0; i < elms.length; i++) {
+        elms[i].textContent = data.name+ ' ' +data.lastname;
+    }
+    document.getElementById('persona-email').textContent = data.email;
+    document.getElementById('persona-whatsapp').textContent = "+"+data.whatsapp.toString().substring(0,2) + " " + data.whatsapp.toString().substring(2,3) + " " + data.whatsapp.toString().substring(3,7) + " " + data.whatsapp.toString().substring(7);
+    document.getElementById('persona-location').textContent = data.location;
+    document.getElementById('persona-whatsapp-link').href="https://wa.me/"+data.whatsapp+"?text=Hi, "+data.name+" ";
+}).catch(error => {
+    console.log(error)
+}).finally(() => {
+    console.log('Api fetch completed')
+});
+
+
+
