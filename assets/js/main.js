@@ -196,7 +196,7 @@ themeButton.addEventListener('click', () => {
 /*==================== API FETCH ====================*/ 
 
 async function getPersona() {
-    let response = await fetch("https://apiportfolio9000.herokuapp.com/api/persona/4")
+    let response = await fetch("https://apiportfolio9000.herokuapp.com/api/persona/status/active")
     let data = await response.json()
     return data;
 }
