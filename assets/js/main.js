@@ -202,14 +202,18 @@ async function getPersona() {
 }
 
 getPersona().then(data => {
-    let elms = document.querySelectorAll("[id='persona-name']");
-    for(let i = 0; i < elms.length; i++) {
-        elms[i].textContent = data.name+ ' ' +data.lastname;
+    let personaNames = document.querySelectorAll("[id='persona-name']");
+    for(let i = 0; i < personaNames.length; i++) {
+        personaNames[i].textContent = data.name+ ' ' +data.lastname;
     }
     document.getElementById('persona-email').textContent = data.email;
     document.getElementById('persona-whatsapp').textContent = "+"+data.whatsapp.toString().substring(0,2) + " " + data.whatsapp.toString().substring(2,3) + " " + data.whatsapp.toString().substring(3,7) + " " + data.whatsapp.toString().substring(7);
-    document.getElementById('persona-location').textContent = data.location;
     document.getElementById('persona-whatsapp-link').href="https://wa.me/"+data.whatsapp+"?text=Hi, "+data.name+" ";
+    document.getElementById('persona-location').textContent = data.location;
+    let personaGithubs = document.querySelectorAll("[id='persona-github']");
+    for(let i = 0; i < personaGithubs.length; i++) {
+        personaGithubs[i].href = data.github;
+    }
     document.getElementById('cover-spin').style.display = "none";
 }).catch(error => {
     alert(error)
