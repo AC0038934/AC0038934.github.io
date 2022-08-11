@@ -214,8 +214,8 @@ getPersona().then(data => {
     for(let i = 0; i < personaGithubs.length; i++) {
         personaGithubs[i].href = data.github;
     }
-    document.getELelementById('persona-instagram').href = data.instragram;
-    document.getELelementById('persona-twitter').href = data.twitter;
+    document.getElementById('persona-instagram').href = data.instragram;
+    document.getElementById('persona-twitter').href = data.twitter;
     document.getElementById('cover-spin').style.display = "none";
 }).catch(error => {
     alert(error)
