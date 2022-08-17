@@ -195,27 +195,38 @@ themeButton.addEventListener('click', () => {
 
 /*==================== API FETCH ====================*/ 
 
+function getSocialsContent(data, socialName){
+ 
+    let socialNameContent = data.socials.filter(({name}) => name.includes(socialName) ?? false);
+    if(socialNameContent.length > 0){
+        return socialNameContent[0].content;
+    }else{
+        return '';
+    }
+}
+
 async function getPersona() {
-    let response = await fetch("https://apiportfolio9000.herokuapp.com/api/persona/status/active")
+    let response = await fetch("http://127.0.0.1:8000/api/persona/get/admin@gmail.com")
     let data = await response.json()
     return data;
 }
 
 getPersona().then(data => {
+    console.log(data)
     let personaNames = document.querySelectorAll("[id='persona-name']");
     for(let i = 0; i < personaNames.length; i++) {
         personaNames[i].textContent = data.name+ ' ' +data.lastname;
     }
-    document.getElementById('persona-email').textContent = data.email;
-    document.getElementById('persona-whatsapp').textContent = "+"+data.whatsapp.toString().substring(0,2) + " " + data.whatsapp.toString().substring(2,3) + " " + data.whatsapp.toString().substring(3,7) + " " + data.whatsapp.toString().substring(7);
-    document.getElementById('persona-whatsapp-link').href="https://wa.me/"+data.whatsapp+"?text=Hi, "+data.name+" ";
-    document.getElementById('persona-location').textContent = data.location;
+    document.getElementById('persona-email').textContent = getSocialsContent(data, 'Email');
+    document.getElementById('persona-whatsapp').textContent = "+" + getSocialsContent(data, 'WhatsApp').toString().substring(0,2) + " " + getSocialsContent(data, 'WhatsApp').toString().substring(2,3) + " " + getSocialsContent(data, 'WhatsApp').toString().substring(3,7) + " " + getSocialsContent(data, 'WhatsApp').toString().substring(7);
+    document.getElementById('persona-whatsapp-link').href="https://wa.me/" + getSocialsContent(data, 'WhatsApp')+"?text=Hi, " + data.name + " ";
+    document.getElementById('persona-location').textContent = data.city.name + ", " + data.city.country.name;
     let personaGithubs = document.querySelectorAll("[id='persona-github']");
     for(let i = 0; i < personaGithubs.length; i++) {
-        personaGithubs[i].href = data.github;
+        personaGithubs[i].href = getSocialsContent(data, 'GitHub')
     }
-    document.getElementById('persona-instagram').href = data.instagram;
-    document.getElementById('persona-twitter').href = data.twitter;
+    document.getElementById('persona-instagram').href = getSocialsContent(data, 'Twiwtter');
+    document.getElementById('persona-twitter').href = getSocialsContent(data, 'Twitter');
     document.getElementById('cover-spin').style.display = "none";
 }).catch(error => {
     alert(error)
