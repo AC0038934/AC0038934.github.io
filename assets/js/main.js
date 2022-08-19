@@ -195,8 +195,66 @@ themeButton.addEventListener('click', () => {
 
 /*==================== API FETCH ====================*/ 
 
+async function getPersona() {
+    let response = await fetch("https://apiportfolio9000.herokuapp.com//persona/get/admin@gmail.com")
+    //let response = await fetch("http://127.0.0.1:8000/api/persona/get/admin@gmail.com")
+    let data = await response.json()
+    return data;
+}
+
+getPersona().then(data => {
+    setPersonaInfo(data);
+    setPersonaSocials(data);
+    setProjects(data);
+    document.getElementById('cover-spin').remove(); //style.display = "none";
+}).catch(error => {
+    alert(error)
+}).finally(() => {
+    console.log('Api fetch completed')
+});
+
+/*==================== PERSONA FUNCTIONS ====================*/ 
+
+function setPersonaInfo (data){
+    let personaNames = document.querySelectorAll("[id='persona-name']");
+    for(let i = 0; i < personaNames.length; i++) {
+        personaNames[i].textContent = data.name+ ' ' +data.lastname;
+    }
+    let personaTitles = document.querySelectorAll("[id='persona-title']");
+    for(let i = 0; i < personaTitles.length; i++) {
+        personaTitles[i].textContent = data.title;
+    }
+    document.getElementById('persona-description').innerHTML = data.description.replace(/\n/g, '<br>');
+    document.getElementById('persona-about').innerHTML = data.about.replace(/\n/g, '<br>');
+    document.getElementById('persona-experience').textContent = + '0' + data.experience.toString() + '+';
+    document.getElementById('persona-projects').textContent = + '0' + getProjectsQuantityByStatus(data).toString() + '+';
+    document.getElementById('persona-location').textContent = data.city.name + ", " + data.city.country.name;
+}
+
+function setPersonaSocials(data){
+    let personaGithubs = document.querySelectorAll("[id='persona-github']");
+    for(let i = 0; i < personaGithubs.length; i++) {
+        personaGithubs[i].href = getSocialsContent(data, 'GitHub')
+    }
+    document.getElementById('persona-email').textContent = getSocialsContent(data, 'Email');
+    document.getElementById('persona-whatsapp').textContent = "+" + getSocialsContent(data, 'WhatsApp').toString().substring(0,2) + " " + getSocialsContent(data, 'WhatsApp').toString().substring(2,3) + " " + getSocialsContent(data, 'WhatsApp').toString().substring(3,7) + " " + getSocialsContent(data, 'WhatsApp').toString().substring(7);
+    document.getElementById('persona-whatsapp-link').href="https://wa.me/" + getSocialsContent(data, 'WhatsApp')+"?text=Hi, " + data.name + " ";
+    document.getElementById('persona-instagram').href = getSocialsContent(data, 'Instagram');
+    document.getElementById('persona-twitter').href = getSocialsContent(data, 'Twitter');
+}
+
+function setProjects(data){ 
+    data.projects.forEach(element => {
+        if(element.status == 0){
+            let project = document.querySelectorAll("[id='"+element.name.toLowerCase()+"']");
+            for(let i = 0; i < project.length; i++) {
+                project[i].remove(); //remove status 0 projects
+            }
+        }
+    });
+}
+
 function getSocialsContent(data, socialName){
- 
     let socialNameContent = data.socials.filter(({name}) => name.includes(socialName) ?? false);
     if(socialNameContent.length > 0){
         return socialNameContent[0].content;
@@ -204,35 +262,23 @@ function getSocialsContent(data, socialName){
         return '';
     }
 }
-
-async function getPersona() {
-    let response = await fetch("https://apiportfolio9000.herokuapp.com/api/persona/get/admin@gmail.com")
-    let data = await response.json()
-    return data;
+function getProjectsQuantityByStatus(data){
+    const projects = data.projects;
+    let count = 0;
+    projects.forEach(element => {
+        if(element.status == 1){
+            count += 1;
+        }
+    });
+    return count;
 }
-
-getPersona().then(data => {
-    console.log(data)
-    let personaNames = document.querySelectorAll("[id='persona-name']");
-    for(let i = 0; i < personaNames.length; i++) {
-        personaNames[i].textContent = data.name+ ' ' +data.lastname;
+/* function getProjectStatus(data, projectName){
+    let projectStatus = data.projects.filter(({name}) => name.includes(projectName) ?? false);
+    if(projectStatus.length > 0){
+        return projectStatus[0].status;
+    }else{
+        return '';
     }
-    document.getElementById('persona-email').textContent = getSocialsContent(data, 'Email');
-    document.getElementById('persona-whatsapp').textContent = "+" + getSocialsContent(data, 'WhatsApp').toString().substring(0,2) + " " + getSocialsContent(data, 'WhatsApp').toString().substring(2,3) + " " + getSocialsContent(data, 'WhatsApp').toString().substring(3,7) + " " + getSocialsContent(data, 'WhatsApp').toString().substring(7);
-    document.getElementById('persona-whatsapp-link').href="https://wa.me/" + getSocialsContent(data, 'WhatsApp')+"?text=Hi, " + data.name + " ";
-    document.getElementById('persona-location').textContent = data.city.name + ", " + data.city.country.name;
-    let personaGithubs = document.querySelectorAll("[id='persona-github']");
-    for(let i = 0; i < personaGithubs.length; i++) {
-        personaGithubs[i].href = getSocialsContent(data, 'GitHub')
-    }
-    document.getElementById('persona-instagram').href = getSocialsContent(data, 'Twiwtter');
-    document.getElementById('persona-twitter').href = getSocialsContent(data, 'Twitter');
-    document.getElementById('cover-spin').style.display = "none";
-}).catch(error => {
-    alert(error)
-}).finally(() => {
-    console.log('Api fetch completed')
-});
-
+} */
 
 
