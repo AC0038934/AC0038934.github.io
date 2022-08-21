@@ -206,6 +206,7 @@ getPersona().then(data => {
     setPersonaInfo(data);
     setPersonaSocials(data);
     setProjects(data);
+    swiperPortfolio.update();
     document.getElementById('cover-spin').remove(); //style.display = "none";
 }).catch(error => {
     alert(error)
