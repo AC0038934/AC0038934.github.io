@@ -30,23 +30,23 @@ function linkAction() {
 }
 navLink.forEach(n => n.addEventListener('click', linkAction));
 
-/*==================== ACCORDION SKILLS ====================*/
-const skillsContent = document.getElementsByClassName('skills__content'),
-    skillsHeader = document.querySelectorAll('.skills__header');
-
-function toggleSkills() {
-    let itemClass = this.parentNode.className;
-    for (i = 0; i < skillsContent.length; i++) {
-        skillsContent[i].className = 'skills__content skills__close';
-    }
-    if (itemClass === 'skills__content skills__close') {
-        this.parentNode.className = 'skills__content skills__open';
-    }
-}
-
-skillsHeader.forEach((el) => {
-    el.addEventListener('click', toggleSkills)
-});
+  /*==================== ACCORDION SKILLS ====================*/
+  const skillsContent = document.getElementsByClassName('skills__content'),
+  skillsHeader = document.querySelectorAll('.skills__header');
+  
+  function toggleSkills() {
+  let itemClass = this.parentNode.className;
+  for (i = 0; i < skillsContent.length; i++) {
+      skillsContent[i].className = 'skills__content skills__close';
+  }
+  if (itemClass === 'skills__content skills__close') {
+      this.parentNode.className = 'skills__content skills__open';
+  }
+  }
+  
+  skillsHeader.forEach((el) => {
+  el.addEventListener('click', toggleSkills)
+  });
 
 /*==================== QUALIFICATION TABS ====================*/
 const tabs = document.querySelectorAll('[data-target]'),
@@ -67,7 +67,6 @@ tabs.forEach(tab => {
         tab.classList.add('qualification__active')
     })
 })
-
 
 /*==================== PORTFOLIO SWIPER  ====================*/
 let swiperPortfolio = new Swiper(".portfolio__container", {
@@ -184,6 +183,7 @@ getPersona().then(data => {
     setPersonaInfo(data);
     setPersonaSocials(data);
     setProjects(data);
+    setSkills(data);
     swiperPortfolio.update();
     document.getElementById('cover-spin').remove(); //style.display = "none";
 }).catch(error => {
@@ -220,6 +220,84 @@ function setPersonaSocials(data) {
     document.getElementById('persona-whatsapp-link').href = "https://wa.me/" + getSocialsContent(data, 'WhatsApp') + "?text=Hi, " + data.name + " ";
     document.getElementById('persona-instagram').href = getSocialsContent(data, 'Instagram');
     document.getElementById('persona-twitter').href = getSocialsContent(data, 'Twitter');
+}
+
+function setSkills(data){
+    let skillsBackEndHeader = document.getElementById('skills-backend-header');
+    let skillsBackEndContent = document.getElementById('skills-backend-content');
+    let skillsFrontEndHeader = document.getElementById('skills-frontend-header');
+    let skillsFrontEndContent = document.getElementById('skills-frontend-content');
+    let skillsDesignHeader = document.getElementById('skills-design-header');
+    let skillsDesignContent = document.getElementById('skills-design-content');
+    let skillsOtherHeader = document.getElementById('skills-other-header');
+    let skillsOtherContent = document.getElementById('skills-other-content');
+    skillsBackEndHeader.innerHTML += `
+    <span class="skills__subtitle">More than ${data.experience.toString()} years</span>
+    `;
+    skillsFrontEndHeader.innerHTML += `
+    <span class="skills__subtitle">More than ${data.experience.toString()} years</span>
+    `;
+    skillsDesignHeader.innerHTML += `
+    <span class="skills__subtitle">More than ${data.experience.toString()} years</span>
+    `;
+    skillsOtherHeader.innerHTML += `
+    <span class="skills__subtitle">More than ${data.experience.toString()} years</span>
+    `;
+    data.skills.forEach(element => {
+        if(element.type.name == 'BackEnd'){
+            skillsBackEndContent.innerHTML += `
+            <div class="skills__data">
+            <div class="skills__titles">
+                <h3 class="skills__name">${element.name}</h3>
+                <span class="skills__number">${element.level}%</span>
+            </div>
+            <div class="skills__bar">
+                <span class="skills__percentage" style="width:${element.level}%"></span>
+            </div>
+            </div>
+            `;
+        }
+        if(element.type.name == 'FrontEnd'){
+            skillsFrontEndContent.innerHTML += `
+            <div class="skills__data">
+            <div class="skills__titles">
+                <h3 class="skills__name">${element.name}</h3>
+                <span class="skills__number">${element.level}%</span>
+            </div>
+            <div class="skills__bar">
+                <span class="skills__percentage" style="width:${element.level}%"></span>
+            </div>
+            </div>
+            `;
+        }
+        if(element.type.name == 'Design'){
+            skillsDesignContent.innerHTML += `
+            <div class="skills__data">
+            <div class="skills__titles">
+                <h3 class="skills__name">${element.name}</h3>
+                <span class="skills__number">${element.level}%</span>
+            </div>
+            <div class="skills__bar">
+                <span class="skills__percentage" style="width:${element.level}%"></span>
+            </div>
+            </div>
+            `;
+        }
+        if(element.type.name == 'Other'){
+            skillsOtherContent.innerHTML += `
+            <div class="skills__data">
+            <div class="skills__titles">
+                <h3 class="skills__name">${element.name}</h3>
+                <span class="skills__number">${element.level}%</span>
+            </div>
+            <div class="skills__bar">
+                <span class="skills__percentage" style="width:${element.level}%"></span>
+            </div>
+            </div>
+            `;
+        }
+        
+    })
 }
 
 function getDetails(details, poz) {
