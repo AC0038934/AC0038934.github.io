@@ -173,7 +173,7 @@ themeButton.addEventListener('click', () => {
 /*==================== API FETCH ====================*/
 
 async function getPersona() {
-    let response = await fetch("https://portfoliogestor.gq/api/persona/get/81658d64-be06-4cdb-821d-cac9d2a42099")
+    let response = await fetch("https://portfolio.cyberpunkwaifus.xyz/api/persona/get/81658d64-be06-4cdb-821d-cac9d2a42099")
     let data = await response.json()
     return data;
 }
