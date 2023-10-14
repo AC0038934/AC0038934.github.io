@@ -313,7 +313,10 @@ function setProjects(data) {
     let projectsModalDiv = document.getElementById('project-portfolio-modals');
 
     //order array by updated_at
-    const sortedActivities = data.projects.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    //const sortedActivities = data.projects.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+    
+    //order by random
+    const sortedActivities = [...data.projects].sort(() => Math.random() - 0.5);
 
     sortedActivities.forEach(element => {
         if (element.status != 0) {
